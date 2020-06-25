@@ -1,9 +1,31 @@
 def getUser(line):
-	separate = line.split(":", 2)
-	user = separate[1].split("!", 1)[0]
-	return user
+	try:
+		separate = line.split(":", 2)
+		user = separate[1].split("!", 1)[0]
+		return user
+	except IndexError:
+		return "nulluser"
 def getMessage(line):
-	if not line.startswith("PING") :
+	try:
 		separate = line.split(":", 2)
 		message = separate[2]
 		return message
+	except IndexError:
+		return "nullmsg"
+
+
+def getChannel(line):
+	try:
+		separate = line.split(" ")
+		msgchannel = separate[2].replace("#","")
+		return msgchannel
+	except IndexError:
+		return "nullchan"
+
+def getMsgType(line):
+	try:
+		separate = line.split(" ")
+		msgType = separate[1]
+		return msgType
+	except IndexError:
+		return "nulltype"

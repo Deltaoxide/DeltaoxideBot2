@@ -1,5 +1,5 @@
 import time
-from Socket import sendMessage
+from Socket import sendMessage, initChannels
 from Settings import LANGUAGE
 
 if LANGUAGE == "en":
@@ -21,10 +21,10 @@ def joinRoom(sock):
             print(line)
             Loading = loadingComplete(line)
 
-    sendMessage(sock,MSG_FIRST)
+    sock.send((f"CAP REQ :twitch.tv/commands\r\n").encode('utf-8'))
+    for chan in initChannels:
+        sendMessage(sock,chan,MSG_FIRST)
 
-def say(msg):
-    sendMessage(sock, msg)
 
 def messageCooldown(command,duration):
     if command not in commandcoold or time.time() - commandcoold[command] > duration :
