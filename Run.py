@@ -31,7 +31,9 @@ while True:
         print (user + " typed :" + message)
         #commands ...
 
-
+        if message.startswith("ping") and user == "deltaoxide" :
+            sendMessage(sock,"pong")
+        
         #MSG_HELLO
         if "selam" in message or "merhaba" in message or "sa" in message or "hello" in message  :
             if user not in selamcooldown or time.time() - selamcooldown[user] > 600 :
