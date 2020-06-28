@@ -2,6 +2,7 @@ import socket
 from Settings import HOST, PORT, NICKNAME, TOKEN, CHANNEL
 
 chanfile=open("channels.txt","r")
+
 initChannels= chanfile.read().split("\n")
 chanfile.close()
 

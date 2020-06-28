@@ -5,6 +5,8 @@ def getUser(line):
 		return user
 	except IndexError:
 		return "nulluser"
+
+
 def getMessage(line):
 	try:
 		separate = line.split(":", 2)
@@ -22,10 +24,14 @@ def getChannel(line):
 	except IndexError:
 		return "nullchan"
 
+
 def getMsgType(line):
 	try:
 		separate = line.split(" ")
-		msgType = separate[1]
-		return msgType
+		msgtype = separate[1]
+		return msgtype
 	except IndexError:
 		return "nulltype"
+
+
+#------------------------------- Api Requests --------------------------------------
