@@ -37,7 +37,7 @@ while True:
 # -----------------------------------------------------------------------------------------------------------------
 
         # ------ Selam Verme
-        if arguments[0] in ('selam', 'sa', 'hello', 'hi') or message.startswith("iyi yayınlar"):
+        if arguments[0].lower() in ('selam', 'sa', 'hello', 'hi') or message.lower().startswith("iyi yayınlar"):
             if user not in selamcooldown or time.time() - selamcooldown[user] > 600:
                 if msgType == "PRIVMSG":
                     sendMessage(sock,channel, MSG_HELLO + user + " VoHiYo")
@@ -45,11 +45,11 @@ while True:
                     sendWhisper(sock,user,MSG_HELLO + user + " VoHiYo")
                 selamcooldown[user] = time.time()
 
-        if arguments[0] in ['!şarkı', '!song'] and channel == 'deltaoxide':
+        if arguments[0].lower() in ['!şarkı', '!song'] and channel == 'deltaoxide':
             sendMessage(sock, channel, MSG_SONG + '\r' + getSong())
 
         # ------ Art Challenge Bilgi
-        if message.startswith("?artchallenge") and messageCooldown("?artchallenge", 300):
+        if message.lower().startswith("?artchallenge") and messageCooldown("?artchallenge", 300):
             sendMessage(sock,channel, MSG_ARTCH)
 
             # --------------------------------------------------------------------------------------------------
