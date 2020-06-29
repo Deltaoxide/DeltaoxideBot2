@@ -37,7 +37,7 @@ while True:
 # -----------------------------------------------------------------------------------------------------------------
 
         # ------ Selam Verme
-        if arguments[0].lower() in ('selam', 'sa', 'hello', 'hi') or message.lower().startswith("iyi yayınlar"):
+        if arguments[0].lower() in ('selam', 'sa', 'hello', 'hi', 'hey', 'merhaba', 'selamlar') or message.lower().startswith("iyi yayınlar"):
             if user not in selamcooldown or time.time() - selamcooldown[user] > 600:
                 if msgType == "PRIVMSG":
                     sendMessage(sock,channel, MSG_HELLO + user + " VoHiYo")
@@ -60,8 +60,10 @@ while True:
         if message.startswith('?language') and user == "deltaoxide":
             if LANGUAGE == 'en':
                 from Textstr import *
+                sendMessage(sock, channel, 'Dil \'Türkçe\' olarak ayarlandı')
             else:
                 from Textsen import *
+                sendMessage(sock, channel, 'Language has been set as \'English\'')
 
         if message.startswith("?katıl") and user == "deltaoxide":
             if arguments[1] not in initChannels:

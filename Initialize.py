@@ -29,8 +29,8 @@ def joinRoom(sock):
             Loading = loadingComplete(line)
 
     sock.send((f"CAP REQ :twitch.tv/commands\r\n").encode('utf-8'))
-    for chan in initChannels:
-        sendMessage(sock, chan, MSG_FIRST)
+    # for chan in initChannels:
+        # sendMessage(sock, chan, MSG_FIRST)
 
 
 def messageCooldown(command, duration):
@@ -94,7 +94,7 @@ def getSong():
         Name = SongData['name']
         Songname = f'{Artists} - {Name}'
     else:
-        Songname = 'Bulunamadı'
+        Songname = '-'
     return Songname
 
 
