@@ -45,11 +45,11 @@ while True:
                     sendWhisper(sock,user,MSG_HELLO + user + " VoHiYo")
                 selamcooldown[user] = time.time()
 
-        if arguments[0].lower() in ['!şarkı', '!song'] and user == 'deltaoxide':
+        if arguments[0].lower() in ['!şarkı', '!song'] and channel == 'silveraxe':
             sendMessage(sock, channel, MSG_SONG + '\r' + getSong())
 
         # ------ Art Challenge Bilgi
-        if message.lower().startswith("?artchallenge") and messageCooldown("?artchallenge", 300):
+        if message.lower().startswith("!artchallenge") and messageCooldown("?artchallenge", 300):
             sendMessage(sock,channel, MSG_ARTCH)
 
             # --------------------------------------------------------------------------------------------------
