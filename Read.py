@@ -32,6 +32,3 @@ def getMsgType(line):
 		return msgtype
 	except IndexError:
 		return "nulltype"
-
-
-#------------------------------- Api Requests --------------------------------------

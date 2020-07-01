@@ -1,19 +1,13 @@
 import time
-from Socket import sendMessage, initChannels
+# from Socket import sendMessage, initChannels  # Disabled initchannel sendmessage check line 27
 from Settings import *
 import requests
 import json
 
-if LANGUAGE == "en":
-    from Textsen import MSG_FIRST
-else:
-    from Textstr import MSG_FIRST
-
 commandcoold = {}
 spoRefreshTime = 0
+SpoF = json.load(open('Spo.json'))
 
-
-f = json.load(open('Spo.json'))
 
 def joinRoom(sock):
     readBuffer = ""
@@ -28,17 +22,39 @@ def joinRoom(sock):
             print(line)
             Loading = loadingComplete(line)
 
-    sock.send((f"CAP REQ :twitch.tv/commands\r\n").encode('utf-8'))
+    sock.send(f"CAP REQ :twitch.tv/commands\r\n".encode('utf-8'))
     # for chan in initChannels:
-        # sendMessage(sock, chan, MSG_FIRST)
+    #     sendMessage(sock, chan, MSG_FIRST)
 
 
 def messageCooldown(command, duration):
     if command not in commandcoold or time.time() - commandcoold[command] > duration:
         commandcoold[command] = time.time()
         return True
-    else:
-        return False
+
+
+'''def notifyWeekly(currentdate, weekday, hour, minute):
+    if currentdate.isoweekday() == weekday and\
+            currentdate.hour == hour and\
+            currentdate.minute == minute and currentdate.second == 1:
+        return True'''
+
+
+def stringFormat(string):
+    newstring = ''
+    charold = ''
+    for char in string:
+        if charold != char:
+            newstring = newstring+char
+        charold = char
+    return newstring
+
+
+def convertDay(num,msg_days):
+    if num in range(1,8):
+        day = msg_days[num]
+        return day
+    return ''
 
 
 def getID(login):
@@ -60,14 +76,18 @@ def unfChan(chan):
     return r.ok
 
 
+def isOnline(chan):  # not completed
+    data = {}
+
+
 def getToken():
-    global f
-    r = requests.post('https://accounts.spotify.com/api/token', headers={'Authorization': f'Basic {SpoAppToken}'}, data={'grant_type': 'refresh_token', 'refresh_token': f['refresh_token']})
-    SpoJson = r.json()
-    f['refresh_token'] = SpoJson.get('refresh_token',f['refresh_token'])
-    f['access_token'] = SpoJson['access_token']
-    f['expires_in'] = SpoJson['expires_in']
-    j = json.dumps(f)
+    global SpoF
+    r = requests.post('https://accounts.spotify.com/api/token', headers={'Authorization': f'Basic {SpoAppToken}'}, data={'grant_type': 'refresh_token', 'refresh_token': SpoF['refresh_token']})
+    spojson = r.json()
+    SpoF['refresh_token'] = spojson.get('refresh_token', SpoF['refresh_token'])
+    SpoF['access_token'] = spojson['access_token']
+    SpoF['expires_in'] = spojson['expires_in']
+    j = json.dumps(SpoF)
     with open('Spo.json', 'w') as file:
         file.write(j)
         file.close()
@@ -76,26 +96,25 @@ def getToken():
 
 def getSong():
     global spoRefreshTime
-    global f
-    if (time.time() - f['expires_in']) > spoRefreshTime:
+    global SpoF
+    if (time.time() - SpoF['expires_in']) > spoRefreshTime:
+
         if getToken():
             spoRefreshTime = time.time()
-            print('token complete')
-        print('new token generated')
-    r = requests.get('https://api.spotify.com/v1/me/player/currently-playing',headers={'Authorization': 'Bearer '+f['access_token']})
-    print(r.status_code)
-    print(r.text)
+
+    r = requests.get('https://api.spotify.com/v1/me/player/currently-playing', headers={'Authorization': 'Bearer ' + SpoF['access_token']})
+
     if r.ok and not r.status_code == 204 and r.json()['is_playing'] == True :
-        SongData = r.json()['item']
-        Artists = []
-        for i in SongData['artists']:
-            Artists.append(i['name'])
-        Artists = (',').join(Artists)
-        Name = SongData['name']
-        Songname = f'{Artists} - {Name}'
+        songdata = r.json()['item']
+        artists = []
+        for i in songdata['artists']:
+            artists.append(i['name'])
+        artists = (',').join(artists)
+        name = songdata['name']
+        songname = f'{artists} - {name}'
     else:
-        Songname = '-'
-    return Songname
+        songname = '-'
+    return songname
 
 
 def loadingComplete(line):
