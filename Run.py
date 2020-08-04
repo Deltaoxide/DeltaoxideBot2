@@ -16,6 +16,7 @@ readBuffer = ""
 
 selamcooldown = {}  # Cooldown dict for 'selam' command
 selamMetinleri = ('selam', 'sa', 'hello', 'hi', 'hey', 'merhaba', 'selamlar', 'merhabalar')
+lastchatters = {}
 
 
 
@@ -28,6 +29,7 @@ while True:
     readBuffer = readBuffer + sock.recv(2048).decode('utf-8')
     temp = readBuffer.split('\n')
     readBuffer = temp.pop()
+
 
     #                                    ------- Notifications --------
     # -------------------------------------------------------------------------------------------------------------
@@ -52,11 +54,16 @@ while True:
 
         # ------ Selam Verme
 
-        if stringFormat(arguments[0].lower()) in selamMetinleri or message.lower().startswith("iyi yayınlar"):
+        '''if stringFormat(arguments[0].lower()) in selamMetinleri or message.lower().startswith("iyi yayınlar"):
             if user not in selamcooldown or time.time() - selamcooldown[user] > 14400:
                 if msgType == "PRIVMSG":
                     sendMessage(sock,channel, MSG_HELLO + user + " VoHiYo")
-                    selamcooldown[user] = time.time()
+                    selamcooldown[user] = time.time()'''
+
+        if user not in lastchatters or time.time() - lastchatters[user] > 14400 :
+            if msgType == "PRIVMSG":
+                sendMessage(sock, channel, MSG_HELLO + user + " VoHiYo")
+                lastchatters[user] = time.time()
 
         # -------- Channel Silveraxe
         if channel == 'silveraxe':
