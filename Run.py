@@ -17,6 +17,7 @@ readBuffer = ""
 selamcooldown = {}  # Cooldown dict for 'selam' command
 selamMetinleri = ('selam', 'sa', 'hello', 'hi', 'hey', 'merhaba', 'selamlar', 'merhabalar')
 lastchatters = {"silveraxe":99999999999999,"moobot":999999999999999}
+lastheyo = 0
 
 
 
@@ -59,11 +60,18 @@ while True:
                 if msgType == "PRIVMSG":
                     sendMessage(sock,channel, MSG_HELLO + user + " VoHiYo")
                     selamcooldown[user] = time.time()'''
-
-        if user not in lastchatters or time.time() - lastchatters[user] > 18000 :
-            if msgType == "PRIVMSG":
-                sendMessage(sock, channel, MSG_HELLO + user + " VoHiYo")
-                lastchatters[user] = time.time()
+        
+        if channel == 'oykeli':
+            if time.time() - lastheyo > 900 :
+                if msgType == "PRIVMSG":
+                    sendMessage(sock, channel,"VoHiYo")
+                    lastheyo = time.time()
+                    
+        if channel == 'silveraxe':
+            if user not in lastchatters or time.time() - lastchatters[user] > 18000 :
+                if msgType == "PRIVMSG":
+                    sendMessage(sock, channel, MSG_HELLO + user + " VoHiYo")
+                    lastchatters[user] = time.time()
 
         # -------- Channel Silveraxe
         if channel == 'silveraxe':
