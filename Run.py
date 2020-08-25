@@ -62,7 +62,7 @@ while True:
                     selamcooldown[user] = time.time()'''
         
         if channel == 'oykeli':
-            if time.time() - lastheyo > 900 :
+            if time.time() - lastheyo > 600 :
                 if msgType == "PRIVMSG":
                     sendMessage(sock, channel,"VoHiYo")
                     lastheyo = time.time()
