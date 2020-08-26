@@ -18,6 +18,7 @@ selamcooldown = {}  # Cooldown dict for 'selam' command
 selamMetinleri = ('selam', 'sa', 'hello', 'hi', 'hey', 'merhaba', 'selamlar', 'merhabalar')
 lastchatters = {"silveraxe":99999999999999,"moobot":999999999999999}
 lastheyo = 0
+hflast={}
 
 
 
@@ -66,6 +67,12 @@ while True:
                 if msgType == "PRIVMSG":
                     sendMessage(sock, channel,"VoHiYo")
                     lastheyo = time.time()
+            if arguments[0].lower() == "highfive":
+                if user not in hflast:
+                    hflast[arguments[1]] = time.time()
+                if time.time() - hflast["@"+user] > 20:
+                    sendMessage(sock, channel,arguments[1] + " GivePLZ TakeNRG " + user)
+                
                     
         if channel == 'silveraxe':
             if user not in lastchatters or time.time() - lastchatters[user] > 18000 :
