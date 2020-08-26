@@ -71,7 +71,7 @@ while True:
                 if user not in hflast:
                     hflast[arguments[1]] = time.time()
                 if time.time() - hflast["@"+user] > 20:
-                    sendMessage(sock, channel,arguments[1] + " GivePLZ TakeNRG " + user)
+                    sendMessage(sock, channel,arguments[1] + ": GivePLZ TakeNRG :" + user)
                 
                     
         if channel == 'silveraxe':
