@@ -3,6 +3,7 @@ from Initialize import *
 from Read import *
 import time
 from Settings import *
+import random
 
 if LANGUAGE == "en":
     from Textsen import *
@@ -19,7 +20,11 @@ selamMetinleri = ('selam', 'sa', 'hello', 'hi', 'hey', 'merhaba', 'selamlar', 'm
 lastchatters = {"silveraxe":99999999999999,"moobot":999999999999999}
 lastheyo = 0
 hflast={}
-
+grwords=["Harikasın", "Muhteşemsin", "Süpersin"]
+reactiontimer = 0
+wordslist="abcdefghijklmnoprstuvyzqwxABCDEFGHIJKLMNOPRSTUVYZQWX123456789"
+reactionOn=False
+code="This is a sample code to dont let them know thisS"
 
 
 while True:
@@ -43,6 +48,7 @@ while True:
         if line.startswith('PING'):
             sock.send("PONG\n".encode('utf-8'))
             break
+
         msgType = getMsgType(line)
         message = getMessage(line).replace("\r","")
         channel = getChannel(line)
@@ -63,17 +69,49 @@ while True:
                     selamcooldown[user] = time.time()'''
         
         if channel == 'oykeli':
-            if time.time() - lastheyo > 600 :
+            '''if time.time() - lastheyo > 600 :
                 if msgType == "PRIVMSG":
                     sendMessage(sock, channel,"VoHiYo")
-                    lastheyo = time.time()
-            if arguments[0].lower() == "highfive":
-                if user not in hflast:
-                    hflast[arguments[1]] = time.time()
-                if time.time() - hflast[user] > 20:
-                    sendMessage(sock, channel,arguments[1] + ": GivePLZ TakeNRG :" + user)
-                
-                    
+                    lastheyo = time.time()'''
+
+            if arguments[0].lower() == "?highfive":
+                try:
+                    target = arguments[1].replace("@", "").lower()
+                except IndexError:
+                    break
+                if user.lower() in hflast and time.time() - hflast[user.lower()] < 50:
+                    sendMessage(sock, channel,target + " > GivePLZ TakeNRG < " + user)
+                elif target not in hflast:
+                    hflast[target] = time.time()
+
+            if arguments[0].lower() == "?öv":
+                try:
+                    target = arguments[1].replace("@", "").lower()
+                except IndexError:
+                    target = user
+                gr = grwords[random.randint(0, len(grwords)-1)]
+                sendMessage(sock, channel,gr + " " + target + " BloodTrail")
+
+            if time.time() - reactiontimer > 600:
+                code=""
+                while len(code)<4:
+                    code = code + f"{wordslist[random.randint(0,len(wordslist)-1)]}"
+                print(code)
+                sendMessage(sock, channel,"[ReaksiyonTesti] Kodu chate ilk yazan kazanır : " + code + " PogChamp")
+                reactiontimer = time.time()
+                reactionOn = True
+            if reactionOn and message == code:
+                sendMessage(sock, channel, "[ReaksiyonTesti] Tebrikler @" + user + " Kazandın BloodTrail")
+                reactionOn=False
+
+
+
+
+
+
+
+
+
         if channel == 'silveraxe':
             if user not in lastchatters or time.time() - lastchatters[user] > 18000 :
                 if msgType == "PRIVMSG":
