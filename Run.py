@@ -67,7 +67,11 @@ while True:
                 if msgType == "PRIVMSG":
                     sendMessage(sock,channel, MSG_HELLO + user + " VoHiYo")
                     selamcooldown[user] = time.time()'''
-        
+
+        if "@deltaoxidebot" in message.lower():
+            if messageCooldown("dbottagged",300):
+                sendMessage(sock, channel,f"Merhaba {user}. Benimle konuşmaya çalıştığını anlıyorum fakat ben sadece sahibimin eğittiği bir robot kediyim ve seni anlayamam VoHiYo")
+
         if channel == 'oykeli':
             '''if time.time() - lastheyo > 600 :
                 if msgType == "PRIVMSG":
@@ -103,14 +107,6 @@ while True:
             if reactionOn and message == code:
                 sendMessage(sock, channel, "[ReaksiyonTesti] Tebrikler @" + user + " Kazandın BloodTrail")
                 reactionOn=False
-
-
-
-
-
-
-
-
 
         if channel == 'silveraxe':
             if user not in lastchatters or time.time() - lastchatters[user] > 18000 :
