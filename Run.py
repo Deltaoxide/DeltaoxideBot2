@@ -96,7 +96,7 @@ while True:
                 gr = grwords[random.randint(0, len(grwords)-1)]
                 sendMessage(sock, channel,gr + " " + target + " BloodTrail")
 
-            if time.time() - reactiontimer > 600:
+            if time.time() - reactiontimer > 3600:
                 code=""
                 while len(code)<4:
                     code = code + f"{wordslist[random.randint(0,len(wordslist)-1)]}"
