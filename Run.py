@@ -96,7 +96,7 @@ while True:
                 gr = grwords[random.randint(0, len(grwords)-1)]
                 sendMessage(sock, channel,gr + " " + target + " BloodTrail")
 
-            if time.time() - reactiontimer > 3600:
+            """if time.time() - reactiontimer > 3600:
                 code=""
                 while len(code)<4:
                     code = code + f"{wordslist[random.randint(0,len(wordslist)-1)]}"
@@ -106,7 +106,7 @@ while True:
                 reactionOn = True
             if reactionOn and message == code:
                 sendMessage(sock, channel, "[ReaksiyonTesti] Tebrikler @" + user + " Kazandın BloodTrail")
-                reactionOn=False
+                reactionOn=False"""
 
         if channel == 'silveraxe':
             if user not in lastchatters or time.time() - lastchatters[user] > 18000 :
@@ -122,6 +122,14 @@ while True:
             if arguments[0].lower() == ("!artchallenge"):
                 if messageCooldown("!artchallenge", 300):
                     sendMessage(sock,channel, MSG_ARTCH)
+                    
+            if arguments[0].lower() == "?öv":
+                try:
+                    target = arguments[1].replace("@", "").lower()
+                except IndexError:
+                    target = user
+                gr = grwords[random.randint(0, len(grwords)-1)]
+                sendMessage(sock, channel,gr + " " + target + " BloodTrail")
 
         # --------------------------- Deltaoxide
 
